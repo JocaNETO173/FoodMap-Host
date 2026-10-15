@@ -1,17 +1,31 @@
 # Flash é utilizado para dar alertas ao usuário na tela
+import os
+from urllib.parse import urlparse
 from flask import Flask, render_template, request, redirect, flash, session, make_response
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = "sabonete"
+app.secret_key = os.environ.get("SECRET_KEY", "sabonete")
 
-bd_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'escola',
-    'database': 'foodmap',
-    'ssl_disabled': True
-}
+# Suporta DATABASE_URL (ex: mysql://user:pass@host:3306/dbname) ou variáveis separadas
+db_url = os.environ.get("DATABASE_URL")
+if db_url:
+    parsed = urlparse(db_url)
+    bd_config = {
+        "host": parsed.hostname,
+        "port": parsed.port or 3306,
+        "user": parsed.username,
+        "password": parsed.password,
+        "database": parsed.path.lstrip("/"),
+    }
+else:
+    bd_config = {
+        "host": os.environ.get("DB_HOST", "localhost"),
+        "port": int(os.environ.get("DB_PORT", 3306)),
+        "user": os.environ.get("DB_USER", "root"),
+        "password": os.environ.get("DB_PASSWORD", "escola"),
+        "database": os.environ.get("DB_NAME", "foodmap"),
+    }
 
 
 @app.after_request
@@ -205,4 +219,5 @@ def cadastroRestaurantes():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
