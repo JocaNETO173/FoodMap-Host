@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>FoodMap - Restaurantes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="logo-container logo-reload">
+            <div class="logo-brand font-decorative">
+                Fo<a href="/" class="pin-icon"></a>dMap
+            </div>
+        </div>
+
+        <span class="gear-btn" id="gearBtn" role="button" aria-label="Opções do usuário" tabindex="0">
+            <img src="/static/gear.png" alt="">
+        </span>
+
+        <div class="user-dropdown" id="userDropdown">
+            <div class="user-info-name">{{ nome }}</div>
+            <div class="user-info-email">{{ email }}</div>
+            <div class="dropdown-divider"></div>
+            <a href="/sairDaConta" onclick="return confirm('Sair da Conta?')" id="botaoSair" class="logout-btn">Sair da
+                conta</a>
+            <a href="/apagarConta" onclick="return confirm('Apagar sua conta? [ESTA AÇÃO SERÁ IRREVERSÍVEL!]')"
+                class="logout-btn">Apagar Conta</a>
+        </div>
+    </header>
+
+    <main class="content-container">
+
+        <h1>Olá {{ nome }}!</h1>
+        <div class="search-bar-container">
+            <form action="/restaurantes" method="post">
+                <button class="search-icon" type="submit" aria-hidden="true"></button>
+                <input type="text" name="termo" class="search-input" placeholder="Pesquise aqui">
+            </form>
+        </div>
+
+        <div id="restaurants-list-container">
+            <h3>Resultados:</h3>
+            {% if restaurantes %}
+            {% for restaurante in restaurantes %}
+            <ul class="restaurant-card">
+                <div class="card-top">
+                    <div class="restaurant-image-box">
+                        {% if restaurante.IMAGEM %}
+                        <img src="{{ restaurante.IMAGEM }}" alt="Imagem do Restaurante">
+                        {% else %}
+                        <span>Sem imagem</span>
+                        {% endif %}
+                    </div>
+                    <div class="restaurant-details">
+                        <h2 class="restaurant-title">
+                            <p>{{ restaurante.NOME }}</p>
+                        </h2>
+                        <p class="restaurant-description">
+                        <p>{{ restaurante.DESCRICAO }}</p>
+                        </p>
+                        <p class="restaurant-address">
+                        <p>{{ restaurante.ENDERECO }}</p>
+                        </p>
+                        <p class="restaurant-category">{{ restaurante.CATEGORIA }}</p>
+                    </div>
+                </div>
+            </ul>
+
+            {% endfor %}
+            {% else %}
+            <p>Nenhum restaurante encontrado.</p>
+            {% endif %}
+
+        </div>
+    </main>
+    <script src="/static/js/script.js"></script>
+</body>
+
+</html>

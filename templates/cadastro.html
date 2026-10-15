@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodMap - Cadastro</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="auth-wrapper">
+        <div class="logo-container logo-reload auth-header-logo">
+            <span class="logo-welcome font-decorative">Bem vindo ao</span>
+            <div class="logo-brand font-decorative">
+                Fo<a href="/" class="pin-icon"></a>dMap!
+            </div>
+        </div>
+
+
+
+        <div class="auth-card">
+            <form action="/cadastro_usuario" method="POST">
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="nome">Digite seu nome:</label>
+                    <input type="text" id="nome" name="nome" class="form-input" placeholder='Ex: Carlos' required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="email">Digite seu email:</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder='Ex: carlos@gmail.com' required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="senha">Digite sua senha:</label>
+                    <input min="8" type="password" id="senha" name="senha" class="form-input" placeholder="A senha deve conter no mínimo 8 caractéres." required>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 18px;">
+                    <label for="confirm-senha">Confirme sua senha:</label>
+                    <input min="8" type="password" id="confirm-senha" name="confirm-senha" class="form-input" placeholder="Digite exatamente a mesma senha acima." required>
+                </div>
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                    <li class="alert alert-info">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+
+                <button type="submit" class="btn-primary-red">Cadastrar-se</button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            Já possui uma conta? <a href="/login">Login</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
